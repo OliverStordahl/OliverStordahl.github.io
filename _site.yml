@@ -1,4 +1,4 @@
-name: "Olivers-website"
+name: "Oliver's-website"
 output_dir: "."
 navbar:
   title: "Oliver's Website"
@@ -7,7 +7,9 @@ navbar:
       href: index.html
     - text: "About Me"
       href: about.html
+    - text: "Project"
+      href: project.html
 output:
   html_document:
-    theme: default
+    theme: sandstone
     css: style.css
