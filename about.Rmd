@@ -2,4 +2,6 @@
 title: "About Me"
 ---
 
-Why I am awesome.
+- __Name:__ Oliver_Stordahl
+- __Occupation:__ "Student"
+- __Hobbies:__ Learning data analytics
