@@ -3,6 +3,8 @@ title: "Team Project"
 ---
 
 This is an example of the team project web-page.
+library(tidyverse)
+ggplot(mpg) + geom_point(aes(x = cty, y = hwy))
 
 &nbsp;
 

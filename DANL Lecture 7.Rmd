@@ -1,0 +1,178 @@
+---
+title: "DANL 2.17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(tidyverse)
+library(skimr)   # a better summary of data frame
+library(scales)  # scales for ggplot
+library(gapminder) # gapminder data
+library(socviz)  # data for visualization practice
+library(ggrepel)
+```
+
+
+```{r}
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion, fill = religion))
+p+geom_bar(position = "fill")
+```
+
+
+```{r}
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion))
+p + geom_bar(position = "dodge",
+             mapping = aes(y = ..prop.., group = religion)) +
+  facet_wrap(~ religion, ncol =1)
+```
+
+
+```{r}
+rel_by_region <- gss_sm %>%
+  group_by(bigregion, religion) %>%
+  summarize( N = n()) %>%
+  mutate( freq = N / sum(N),
+          pct = round((freq*100), 0) )
+
+rel_by_region
+
+p <- ggplot(rel_by_region, aes(x = bigregion, y = pct, fill = religion))
+
+p + geom_col(position = "dodge2") +
+  labs(x = "region", y = "percent", fill = "Religion")
+```
+
+
+```{r}
+glimpse(organdata)
+
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+
+p + geom_point()
+```
+
+
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+
+p + geom_line(aes(group = country)) + facet_wrap( ~country) +
+  theme(axis.text.x = element_text(angle = 45))
+```
+
+
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = country, y = donors))
+p + geom_boxplot() + coord_flip()
+```
+
+
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), y = donors))
+
+p + geom_boxplot()+
+  labs(x = NULL) +
+  coord_flip()
+```
+
+
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), y = donors, fill = world))
+
+p + geom_boxplot() + labs(x = NULL) +
+  coord_flip()
+```
+
+
+```{r}
+by_country <- organdata %>% group_by(consent_law, country) %>%
+    summarize(donors_mean= mean(donors, na.rm = TRUE),
+              donors_sd = sd(donors, na.rm = TRUE),
+              gdp_mean = mean(gdp, na.rm = TRUE),
+              health_mean = mean(health, na.rm = TRUE),
+              roads_mean = mean(roads, na.rm = TRUE),
+              cerebvas_mean = mean(cerebvas, na.rm = TRUE))
+
+by_country
+
+by_country <- organdata %>% group_by(consent_law, country) %>%
+    summarize_if(is.numeric, funs(mean, sd), na.rm = TRUE) %>%
+    ungroup()
+
+by_country
+```
+
+
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean, y = reorder(country, donors_mean),
+                          color = consent_law))
+p + geom_point(size=3) +
+    labs(x = "Donor Procurement Rate",
+         y = "", color = "Consent Law") +
+    theme(legend.position="top")
+```
+
+
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean)))
+
+p + geom_point(size=3) +
+    facet_wrap(~ consent_law, scales = "free_y", ncol = 1) +
+    labs(x= "Donor Procurement Rate",
+         y= "")
+```
+
+
+```{r}
+p_title <- "Presidential Elections: Popular & Electoral College Margins"
+p_subtitle <- "1824-2016"
+p_caption <- "Data for 2016 are provisional."
+x_label <- "Winner's share of Popular Vote"
+y_label <- "Winner's share of Electoral College Votes"
+
+p <- ggplot(elections_historic, aes(x = popular_pct, y = ec_pct,
+                                    label = winner_label))
+
+p + geom_hline(yintercept = 0.5, size = 1.4, color = "gray80") +  # We use two new geoms, `geom_hline()` and `geom_vline()` to make the lines. 
+    geom_vline(xintercept = 0.5, size = 1.4, color = "gray80") +
+    geom_point() +
+    geom_text_repel() +  # `geom_text_repel()` makes sure the labels do not overlap with each other, or obscure other points.
+    scale_x_continuous(labels = scales::percent) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(x = x_label, y = y_label, title = p_title, subtitle = p_subtitle,
+         caption = p_caption)
+```
+

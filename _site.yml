@@ -9,6 +9,8 @@ navbar:
       href: about.html
     - text: "Project"
       href: project.html
+    - text: "Project proposal"
+      href: project_proposal.html
 output:
   html_document:
     theme: sandstone

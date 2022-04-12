@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>DANL 2.17</title>
+
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/sandstone.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Oliver's Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About Me</a>
+</li>
+<li>
+  <a href="project.html">Project</a>
+</li>
+<li>
+  <a href="project_proposal.html">Project proposal</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">DANL 2.17</h1>
+
+</div>
+
+
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<pre class="r"><code>summary(cars)</code></pre>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+</div>
+<div id="including-plots" class="section level2">
+<h2>Including Plots</h2>
+<p>You can also embed plots, for example:</p>
+<p><img src="DANL-Lecture-7_files/figure-html/pressure-1.png" width="672" /></p>
+<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+<pre><code>## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.4     v dplyr   1.0.7
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   2.0.1     v forcats 0.5.1</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.0.3</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Warning: package &#39;stringr&#39; was built under R version 4.0.3</code></pre>
+<pre><code>## Warning: package &#39;forcats&#39; was built under R version 4.0.3</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(skimr)   # a better summary of data frame</code></pre>
+<pre><code>## Warning: package &#39;skimr&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>library(scales)  # scales for ggplot</code></pre>
+<pre><code>## Warning: package &#39;scales&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(gapminder) # gapminder data</code></pre>
+<pre><code>## Warning: package &#39;gapminder&#39; was built under R version 4.0.3</code></pre>
+<pre class="r"><code>library(socviz)  # data for visualization practice</code></pre>
+<pre><code>## Warning: package &#39;socviz&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>library(ggrepel)</code></pre>
+<pre><code>## Warning: package &#39;ggrepel&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>p &lt;- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion, fill = religion))
+p+geom_bar(position = &quot;fill&quot;)</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>p &lt;- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion))
+p + geom_bar(position = &quot;dodge&quot;,
+             mapping = aes(y = ..prop.., group = religion)) +
+  facet_wrap(~ religion, ncol =1)</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>rel_by_region &lt;- gss_sm %&gt;%
+  group_by(bigregion, religion) %&gt;%
+  summarize( N = n()) %&gt;%
+  mutate( freq = N / sum(N),
+          pct = round((freq*100), 0) )</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;bigregion&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>rel_by_region</code></pre>
+<pre><code>## # A tibble: 24 x 5
+## # Groups:   bigregion [4]
+##    bigregion religion       N    freq   pct
+##    &lt;fct&gt;     &lt;fct&gt;      &lt;int&gt;   &lt;dbl&gt; &lt;dbl&gt;
+##  1 Northeast Protestant   158 0.324      32
+##  2 Northeast Catholic     162 0.332      33
+##  3 Northeast Jewish        27 0.0553      6
+##  4 Northeast None         112 0.230      23
+##  5 Northeast Other         28 0.0574      6
+##  6 Northeast &lt;NA&gt;           1 0.00205     0
+##  7 Midwest   Protestant   325 0.468      47
+##  8 Midwest   Catholic     172 0.247      25
+##  9 Midwest   Jewish         3 0.00432     0
+## 10 Midwest   None         157 0.226      23
+## # ... with 14 more rows</code></pre>
+<pre class="r"><code>p &lt;- ggplot(rel_by_region, aes(x = bigregion, y = pct, fill = religion))
+
+p + geom_col(position = &quot;dodge2&quot;) +
+  labs(x = &quot;region&quot;, y = &quot;percent&quot;, fill = &quot;Religion&quot;)</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>glimpse(organdata)</code></pre>
+<pre><code>## Rows: 238
+## Columns: 21
+## $ country          &lt;chr&gt; &quot;Australia&quot;, &quot;Australia&quot;, &quot;Australia&quot;, &quot;Australia&quot;, &quot;~
+## $ year             &lt;date&gt; NA, 1991-01-01, 1992-01-01, 1993-01-01, 1994-01-01, ~
+## $ donors           &lt;dbl&gt; NA, 12.09, 12.35, 12.51, 10.25, 10.18, 10.59, 10.26, ~
+## $ pop              &lt;int&gt; 17065, 17284, 17495, 17667, 17855, 18072, 18311, 1851~
+## $ pop_dens         &lt;dbl&gt; 0.2204433, 0.2232723, 0.2259980, 0.2282198, 0.2306484~
+## $ gdp              &lt;int&gt; 16774, 17171, 17914, 18883, 19849, 21079, 21923, 2296~
+## $ gdp_lag          &lt;int&gt; 16591, 16774, 17171, 17914, 18883, 19849, 21079, 2192~
+## $ health           &lt;dbl&gt; 1300, 1379, 1455, 1540, 1626, 1737, 1846, 1948, 2077,~
+## $ health_lag       &lt;dbl&gt; 1224, 1300, 1379, 1455, 1540, 1626, 1737, 1846, 1948,~
+## $ pubhealth        &lt;dbl&gt; 4.8, 5.4, 5.4, 5.4, 5.4, 5.5, 5.6, 5.7, 5.9, 6.1, 6.2~
+## $ roads            &lt;dbl&gt; 136.59537, 122.25179, 112.83224, 110.54508, 107.98096~
+## $ cerebvas         &lt;int&gt; 682, 647, 630, 611, 631, 592, 576, 525, 516, 493, 474~
+## $ assault          &lt;int&gt; 21, 19, 17, 18, 17, 16, 17, 17, 16, 15, 16, 15, 14, N~
+## $ external         &lt;int&gt; 444, 425, 406, 376, 387, 371, 395, 385, 410, 409, 393~
+## $ txp_pop          &lt;dbl&gt; 0.9375916, 0.9257116, 0.9145470, 0.9056433, 0.8961075~
+## $ world            &lt;chr&gt; &quot;Liberal&quot;, &quot;Liberal&quot;, &quot;Liberal&quot;, &quot;Liberal&quot;, &quot;Liberal&quot;~
+## $ opt              &lt;chr&gt; &quot;In&quot;, &quot;In&quot;, &quot;In&quot;, &quot;In&quot;, &quot;In&quot;, &quot;In&quot;, &quot;In&quot;, &quot;In&quot;, &quot;In&quot;,~
+## $ consent_law      &lt;chr&gt; &quot;Informed&quot;, &quot;Informed&quot;, &quot;Informed&quot;, &quot;Informed&quot;, &quot;Info~
+## $ consent_practice &lt;chr&gt; &quot;Informed&quot;, &quot;Informed&quot;, &quot;Informed&quot;, &quot;Informed&quot;, &quot;Info~
+## $ consistent       &lt;chr&gt; &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes&quot;, &quot;Yes~
+## $ ccode            &lt;chr&gt; &quot;Oz&quot;, &quot;Oz&quot;, &quot;Oz&quot;, &quot;Oz&quot;, &quot;Oz&quot;, &quot;Oz&quot;, &quot;Oz&quot;, &quot;Oz&quot;, &quot;Oz&quot;,~</code></pre>
+<pre class="r"><code>p &lt;- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+
+p + geom_point()</code></pre>
+<pre><code>## Warning: Removed 34 rows containing missing values (geom_point).</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>p &lt;- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+
+p + geom_line(aes(group = country)) + facet_wrap( ~country) +
+  theme(axis.text.x = element_text(angle = 45))</code></pre>
+<pre><code>## Warning: Removed 34 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>p &lt;- ggplot(data = organdata, 
+            mapping = aes(x = country, y = donors))
+p + geom_boxplot() + coord_flip()</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>p &lt;- ggplot(data = organdata,
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), y = donors))
+
+p + geom_boxplot()+
+  labs(x = NULL) +
+  coord_flip()</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>p &lt;- ggplot(data = organdata,
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), y = donors, fill = world))
+
+p + geom_boxplot() + labs(x = NULL) +
+  coord_flip()</code></pre>
+<pre><code>## Warning: Removed 34 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>by_country &lt;- organdata %&gt;% group_by(consent_law, country) %&gt;%
+    summarize(donors_mean= mean(donors, na.rm = TRUE),
+              donors_sd = sd(donors, na.rm = TRUE),
+              gdp_mean = mean(gdp, na.rm = TRUE),
+              health_mean = mean(health, na.rm = TRUE),
+              roads_mean = mean(roads, na.rm = TRUE),
+              cerebvas_mean = mean(cerebvas, na.rm = TRUE))</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;consent_law&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>by_country</code></pre>
+<pre><code>## # A tibble: 17 x 8
+## # Groups:   consent_law [2]
+##    consent_law country        donors_mean donors_sd gdp_mean health_mean roads_mean
+##    &lt;chr&gt;       &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Informed    Australia             10.6     1.14    22179.       1958.      105. 
+##  2 Informed    Canada                14.0     0.751   23711.       2272.      109. 
+##  3 Informed    Denmark               13.1     1.47    23722.       2054.      102. 
+##  4 Informed    Germany               13.0     0.611   22163.       2349.      113. 
+##  5 Informed    Ireland               19.8     2.48    20824.       1480.      118. 
+##  6 Informed    Netherlands           13.7     1.55    23013.       1993.       76.1
+##  7 Informed    United Kingdom        13.5     0.775   21359.       1561.       67.9
+##  8 Informed    United States         20.0     1.33    29212.       3988.      155. 
+##  9 Presumed    Austria               23.5     2.42    23876.       1875.      150. 
+## 10 Presumed    Belgium               21.9     1.94    22500.       1958.      155. 
+## 11 Presumed    Finland               18.4     1.53    21019.       1615.       93.6
+## 12 Presumed    France                16.8     1.60    22603.       2160.      156. 
+## 13 Presumed    Italy                 11.1     4.28    21554.       1757       122. 
+## 14 Presumed    Norway                15.4     1.11    26448.       2217.       70.0
+## 15 Presumed    Spain                 28.1     4.96    16933        1289.      161. 
+## 16 Presumed    Sweden                13.1     1.75    22415.       1951.       72.3
+## 17 Presumed    Switzerland           14.2     1.71    27233        2776.       96.4
+## # ... with 1 more variable: cerebvas_mean &lt;dbl&gt;</code></pre>
+<pre class="r"><code>by_country &lt;- organdata %&gt;% group_by(consent_law, country) %&gt;%
+    summarize_if(is.numeric, funs(mean, sd), na.rm = TRUE) %&gt;%
+    ungroup()</code></pre>
+<pre><code>## Warning: `funs()` was deprecated in dplyr 0.8.0.
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<pre class="r"><code>by_country</code></pre>
+<pre><code>## # A tibble: 17 x 28
+##    consent_law country  donors_mean pop_mean pop_dens_mean gdp_mean gdp_lag_mean
+##    &lt;chr&gt;       &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt;         &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Informed    Austral~        10.6   18318.         0.237   22179.       21779.
+##  2 Informed    Canada          14.0   29608.         0.297   23711.       23353.
+##  3 Informed    Denmark         13.1    5257.        12.2     23722.       23275 
+##  4 Informed    Germany         13.0   80255.        22.5     22163.       21938.
+##  5 Informed    Ireland         19.8    3674.         5.23    20824.       20154.
+##  6 Informed    Netherl~        13.7   15548.        37.4     23013.       22554.
+##  7 Informed    United ~        13.5   58187.        24.0     21359.       20962.
+##  8 Informed    United ~        20.0  269330.         2.80    29212.       28699.
+##  9 Presumed    Austria         23.5    7927.         9.45    23876.       23415.
+## 10 Presumed    Belgium         21.9   10153.        30.7     22500.       22096.
+## 11 Presumed    Finland         18.4    5112.         1.51    21019.       20763 
+## 12 Presumed    France          16.8   58056.        10.5     22603.       22211.
+## 13 Presumed    Italy           11.1   57360.        19.0     21554.       21195.
+## 14 Presumed    Norway          15.4    4386.         1.35    26448.       25769.
+## 15 Presumed    Spain           28.1   39666.         7.84    16933        16584.
+## 16 Presumed    Sweden          13.1    8789.         1.95    22415.       22094 
+## 17 Presumed    Switzer~        14.2    7037.        17.0     27233        26931.
+## # ... with 21 more variables: health_mean &lt;dbl&gt;, health_lag_mean &lt;dbl&gt;,
+## #   pubhealth_mean &lt;dbl&gt;, roads_mean &lt;dbl&gt;, cerebvas_mean &lt;dbl&gt;,
+## #   assault_mean &lt;dbl&gt;, external_mean &lt;dbl&gt;, txp_pop_mean &lt;dbl&gt;,
+## #   donors_sd &lt;dbl&gt;, pop_sd &lt;dbl&gt;, pop_dens_sd &lt;dbl&gt;, gdp_sd &lt;dbl&gt;,
+## #   gdp_lag_sd &lt;dbl&gt;, health_sd &lt;dbl&gt;, health_lag_sd &lt;dbl&gt;, pubhealth_sd &lt;dbl&gt;,
+## #   roads_sd &lt;dbl&gt;, cerebvas_sd &lt;dbl&gt;, assault_sd &lt;dbl&gt;, external_sd &lt;dbl&gt;,
+## #   txp_pop_sd &lt;dbl&gt;</code></pre>
+<pre class="r"><code>p &lt;- ggplot(data = by_country,
+            mapping = aes(x = donors_mean, y = reorder(country, donors_mean),
+                          color = consent_law))
+p + geom_point(size=3) +
+    labs(x = &quot;Donor Procurement Rate&quot;,
+         y = &quot;&quot;, color = &quot;Consent Law&quot;) +
+    theme(legend.position=&quot;top&quot;)</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>p &lt;- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean)))
+
+p + geom_point(size=3) +
+    facet_wrap(~ consent_law, scales = &quot;free_y&quot;, ncol = 1) +
+    labs(x= &quot;Donor Procurement Rate&quot;,
+         y= &quot;&quot;)</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>p_title &lt;- &quot;Presidential Elections: Popular &amp; Electoral College Margins&quot;
+p_subtitle &lt;- &quot;1824-2016&quot;
+p_caption &lt;- &quot;Data for 2016 are provisional.&quot;
+x_label &lt;- &quot;Winner&#39;s share of Popular Vote&quot;
+y_label &lt;- &quot;Winner&#39;s share of Electoral College Votes&quot;
+
+p &lt;- ggplot(elections_historic, aes(x = popular_pct, y = ec_pct,
+                                    label = winner_label))
+
+p + geom_hline(yintercept = 0.5, size = 1.4, color = &quot;gray80&quot;) +  # We use two new geoms, `geom_hline()` and `geom_vline()` to make the lines. 
+    geom_vline(xintercept = 0.5, size = 1.4, color = &quot;gray80&quot;) +
+    geom_point() +
+    geom_text_repel() +  # `geom_text_repel()` makes sure the labels do not overlap with each other, or obscure other points.
+    scale_x_continuous(labels = scales::percent) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(x = x_label, y = y_label, title = p_title, subtitle = p_subtitle,
+         caption = p_caption)</code></pre>
+<pre><code>## Warning: ggrepel: 15 unlabeled data points (too many overlaps). Consider
+## increasing max.overlaps</code></pre>
+<p><img src="DANL-Lecture-7_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
