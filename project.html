@@ -253,6 +253,9 @@ $(document).ready(function () {
 <li>
   <a href="project_proposal.html">Project proposal</a>
 </li>
+<li>
+  <a href="Homework4.html">Homework</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -276,9 +279,9 @@ $(document).ready(function () {
 <h2>US county map of climate change belief in 2018</h2>
 <p>  <strong>Estimated percentage who think that global warming is caused mostly by human activities</strong></p>
 <pre class="r"><code>library(tidyverse)
-library(ggthemes)</code></pre>
-<pre><code>## Warning: package &#39;ggthemes&#39; was built under R version 4.0.5</code></pre>
-<pre class="r"><code>cc_belief_county &lt;- read.table(
+library(ggthemes)
+
+cc_belief_county &lt;- read.table(
   &#39;https://bcecon.github.io/cc_belief_county.csv&#39;,
   sep = &#39;,&#39;,
   header = TRUE,
