@@ -8,7 +8,7 @@ navbar:
     - text: "About Me"
       href: about.html
     - text: "Project"
-      href: project.html
+      href: project_final.html
     - text: "Project proposal"
       href: project_proposal.html
     - text: "Homework"
