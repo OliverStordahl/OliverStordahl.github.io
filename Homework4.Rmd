@@ -139,9 +139,9 @@ x <- x2 + labs(fill = "Percent Belief", title = "U.S. Climate Opinion, 2021: Glo
 
 
 ```
-````{=html}
-```{r, echo = T, echo=FALSE, results='asis'}
-xfun::file_string(paste0( getwd(), "/climate_opinion_map_interactive.html"))
-```
-````
+<!-- ````{=html} -->
+<!-- ```{r, echo = T, echo=FALSE, results='asis'} -->
+<!-- xfun::file_string(paste0( getwd(), "/climate_opinion_map_interactive.html")) -->
+<!-- ``` -->
+<!-- ```` -->
 
